@@ -22,6 +22,11 @@
             <button type="submit" class="btn btn-primary">Register</button>
           </form>  
         </div>
+        <br>
+         <p class="text-center">
+              Already have an account?
+              <a href="#" @click="changePage">Login here</a>
+            </p>
       </div>
   </div>
 </template>
@@ -38,6 +43,10 @@ export default {
     }
   },
   methods :{
+     changePage(){
+      // console.log('login vue');
+      this.$emit("halamanLogin","login page")
+    },
     register(){
       // console.log(this.registUser, 'mashook');
       this.$emit("registUser", this.registUser)

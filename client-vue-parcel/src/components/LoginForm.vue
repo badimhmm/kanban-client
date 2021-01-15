@@ -39,7 +39,7 @@ export default {
       this.$emit("halamanRegister","register page")
     },
     login(){
-      console.log('cek disini', this.email, this.password )
+      // console.log('cek disini', this.email, this.password )
       this.$emit('v-on:login="login"', {email: this.email, password: this.password})
     },
     OnGoogleAuthSuccess (idToken) {
@@ -55,27 +55,12 @@ export default {
         email : '',
         password : '',
  
-      clientId : '146280165956-q5r75o17om8pic39nl03cdv9smc407ke.apps.googleusercontent.com'
+      clientId : '920456466156-eu3p58i5g9rub7sc3c8rbsag8f9spd2q.apps.googleusercontent.com'
     }
   },
 }
 </script>
 
 <style>
-.google-signin-button {
-  color: white;
-  background-color: red;
-  height: 50px;
-  font-size: 16px;
-  border-radius: 10px;
-  padding: 10px 20px 25px 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+
 </style>
- 
-
-    ff gbf
-   
-
-
-   

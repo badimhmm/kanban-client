@@ -2,12 +2,11 @@
   <div>
     <navbar-component :currentPage="currentPage" @halamanLogin="logout" ></navbar-component>
     <login-form-component v-if="currentPage == 'login page'" 
-      halamanRegister="changePage"
+      @halamanRegister="changePage"
       v-on:login="login"
-      message= "'hello world'"
-      googleToken="googleSignIn"
+      @googleToken="googleSignIn"
     ></login-form-component>
-    <register-form-component v-else-if="currentPage == 'register page'" @registUser="register"></register-form-component>  
+    <register-form-component v-else-if="currentPage == 'register page'" @registUser="register" @halamanLogin="changePage"></register-form-component>  
     <kanban-board-component v-else-if="currentPage == 'kanban page'" 
       :categories="categories"
       :tasks="tasks"
@@ -28,7 +27,7 @@ import axios from 'axios'
 import swal from 'sweetalert';
 import KanbanBoardComponent from './components/KanbanBoard'
 
-const baseurl = "https://localhost:3001/"
+const baseurl = "http://localhost:3001/"
 
 export default {
   name : "App",
