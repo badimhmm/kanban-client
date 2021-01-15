@@ -2,8 +2,8 @@
   <div>
     <navbar-component :currentPage="currentPage" @halamanLogin="logout" ></navbar-component>
     <login-form-component v-if="currentPage == 'login page'" 
-      halamanRegister="changePage",
-     @dologin="login"
+      halamanRegister="changePage"
+      v-on:login="login"
       message= "'hello world'"
       googleToken="googleSignIn"
     ></login-form-component>
@@ -93,30 +93,29 @@ export default {
         })
       })
     },
-    async login(loginUser){
-      console.log('cek login')
-      try {
-        const token = await axios({
+    login(loginUser){
+      axios({
           url : `${baseurl}login`,
           method : "post",
           data : loginUser
-        })
-        swal({
-          icon: "success",
-          title: "Welcome",
-          text : `${loginUser.email}`
-        })
+      })
+      .then(response => {
         this.currentPage = 'kanban page'
         localStorage.setItem('access_token', token.data.access_token)
         this.fetch()
-        // console.log(token.data);
-      } catch (error) {
-        swal({
-          icon: "error",
-          title: "error",
-          text : error.response.data.message
-        })
-      }
+         swal({
+        icon: "success",
+        title: "Welcome",
+        text : `${loginUser.email}`
+      })
+      })  
+      .catch (error => {
+       swal({
+         icon: "error",
+         title: "error",
+         text : error.response.data.message
+       })
+      })
     },
     logout(page){
       swal({
@@ -132,84 +131,86 @@ export default {
 
       this.currentPage = page;
     },
-    async fetch(){
-      try {
-        const data = await axios({
-          url : `${baseurl}tasks`,
-          method: 'get',
-          headers :{
-            access_token : localStorage.getItem('access_token')
-          }
-        })
+    fetch(){
+      axios({
+        url : `${baseurl}tasks`,
+        method: 'get',
+        headers :{
+          access_token : localStorage.getItem('access_token')
+        }
+      })
+      .then(response => {
         this.tasks = data.data
-      } catch (error) {
-        // console.log(error);
+      }) 
+      .catch ((error) => {
+       // console.log(error);
+       swal({
+         icon: "error",
+         title: "error",
+         text : error.response.data.message
+       })
+      })
+    },
+    deleteTask(id){
+      axios({
+        url : `${baseurl}tasks/${id}`,
+        method: 'delete',
+        headers :{
+          access_token : localStorage.getItem('access_token')
+        }
+      })
+      .then( response => {
+        this.fetch()
+      })
+      .catch (error => {
         swal({
           icon: "error",
           title: "error",
           text : error.response.data.message
         })
-      }
+      })
     },
-    async deleteTask(id){
-      try {
-        const deleted = await axios({
-          url : `${baseurl}tasks/${id}`,
-          method: 'delete',
-          headers :{
-            access_token : localStorage.getItem('access_token')
-          }
-        })
+    editTask(data, id){
+      axios ({
+        url : `${baseurl}tasks/${id}`,
+        method: 'put',
+        headers :{
+        access_token : localStorage.getItem('access_token')
+        },
+        data : data
+      })
+      .then(response => {
         this.fetch()
-      } catch (error) {
-        swal({
-          icon: "error",
-          title: "error",
-          text : error.response.data.message
-        })
-      }
-    },
-    async editTask(data, id){
-      // console.log(data, id);
-      try {
-        const editedTask = await axios ({
-          url : `${baseurl}tasks/${id}`,
-            method: 'put',
-            headers :{
-            access_token : localStorage.getItem('access_token')
-            },
-            data : data
-        })
-        this.fetch()
-      } catch (error) {
+      })
+      .catch (error => {
         this.fetch()
         swal({
           icon: "error",
           title: "error",
           text : error.response.data.message
         })
-      }
+      })
     },
-    async createTask(data){
-      // console.log(data);
-      try {
-        const newTask = await axios({
+    createTask(data){
+      axios({
           url : `${baseurl}tasks`,
-            method: 'post',
-            headers :{
-            access_token : localStorage.getItem('access_token')
-            },
-            data : data
-        })
+          method: 'post',
+          headers :{
+          access_token : localStorage.getItem('access_token')
+          },
+          data : data
+      })
+      .then (response => {
         this.fetch()
-      } catch (error) {
+      })
+       .catch (error => {
         console.log(error);
         swal({
           icon: "error",
           title: "error",
           text : "failed"
         })
-      }
+      })
     },
     async googleSignIn(token){
       // console.log(token);

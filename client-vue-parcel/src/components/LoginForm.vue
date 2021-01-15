@@ -1,7 +1,7 @@
 <template>
   <div><br>
     <div class="login-container container col-4 shadow-lg p-5">
-        <h1 class="text-center">User Login abcd {{message}}</h1>
+        <h1 class="text-center">User Login</h1>
 
         <div class="card bg-transparent">
           <form @submit.prevent="login" class="p-2">
@@ -40,7 +40,7 @@ export default {
     },
     login(){
       console.log('cek disini', this.email, this.password )
-      this.$emit('dologin', {email: this.email, password: this.password})
+      this.$emit('v-on:login="login"', {email: this.email, password: this.password})
     },
     OnGoogleAuthSuccess (idToken) {
       this.$emit('googleToken', idToken)
@@ -72,3 +72,10 @@ export default {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>
+ 
+
+    ff gbf
+   
+
+
+   
